@@ -1,5 +1,26 @@
 #!/bin/bash
 
+# Function to display usage information
+usage() {
+    echo "Usage: $0 -i <input_folder> -o <output_folder> -f <face_img>"
+    exit 1
+}
+
+# Parse command line options using getopts
+while getopts ":i:o:f:" opt; do
+    case $opt in
+        i) input_folder="$OPTARG" ;;
+        o) output_folder="$OPTARG" ;;
+        f) face_img="$OPTARG" ;;
+        *) usage ;;
+    esac
+done
+
+# Check if all required options are provided
+if [ -z "$input_folder" ] || [ -z "$output_folder" ] || [ -z "$face_img" ]; then
+    usage
+fi
+
 run_processing() {
     local input_folder="$1"
     local output_folder="$2"
@@ -70,5 +91,5 @@ run_processing() {
     echo "Total execution time: ${hours}h ${minutes}m ${seconds}s"
 }
 
-# Call the function with input folder, output folder, and face image path
-run_processing "inputs" "results" "face_food_eating.webp"
+# Call the function with the provided arguments
+run_processing "$input_folder" "$output_folder" "$face_img"
