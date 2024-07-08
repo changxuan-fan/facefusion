@@ -20,7 +20,6 @@ if [ -z "$input_folder" ] || [ -z "$output_folder" ]; then
     usage
 fi
 
-
 # Function to extract frames from a video
 extract_frames() {
     local input_folder="$1"
@@ -48,7 +47,7 @@ extract_frames() {
 
         # Assign the command to the appropriate GPU
         gpu_index=$((video_index % num_gpus))
-        gpu_commands[$gpu_index]+="CUDA_VISIBLE_DEVICES=$gpu_index ffmpeg -y -vsync 0 -hwaccel cuda -i $VIDEO_FILE -vf scale=360:640 -qscale:v 1 $output_folder/$BASE_NAME/frame_%04d.jpg;"
+        gpu_commands[$gpu_index]+="CUDA_VISIBLE_DEVICES=$gpu_index ffmpeg -y -vsync 0 -hwaccel cuda -i \"$VIDEO_FILE\" -vf scale=360:640 -qscale:v 1 \"$output_folder/$BASE_NAME/frame_%04d.jpg\"; "
 
         video_index=$((video_index + 1))
     done
@@ -63,7 +62,6 @@ extract_frames() {
     # Wait for all background processes to finish
     wait
 }
-
 
 # Call the function with the provided arguments
 extract_frames "$input_folder" "$output_folder"
