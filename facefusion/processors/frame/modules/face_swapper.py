@@ -243,6 +243,7 @@ def swap_face(source_face : Face, target_face : Face, temp_vision_frame : Vision
 	if 'region' in facefusion.globals.face_mask_types:
 		region_mask = create_region_mask(crop_vision_frame, facefusion.globals.face_mask_regions)
 		crop_mask_list.append(region_mask)
+	print(crop_mask_list)
 	crop_mask = numpy.minimum.reduce(crop_mask_list).clip(0, 1)
 	temp_vision_frame = paste_back(temp_vision_frame, crop_vision_frame, crop_mask, affine_matrix)
 	return temp_vision_frame
